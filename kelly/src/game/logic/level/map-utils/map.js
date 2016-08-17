@@ -2,7 +2,7 @@
 import { Tile } from './tile';
 
 class GameMap {
-	constructor(level_number = 0, width = 16, height = 10) {
+	constructor(level_number = 0, width = 60, height = 60) {
 		this.level_number 	= level_number;
 		this.width			= width;
 		this.height			= height;
@@ -83,15 +83,20 @@ class GameMap {
 		var y_min = leftTopCorner[1];
 		var y_max = rightLowerCorner[1];
 
+		var mapMaxX = this.width - 1;
+		var mapMaxY = this.height - 1;
+
 		// console.log("x min: ", x_min);
 		// console.log("x max: ", x_max);
 		// console.log("y min: ", y_min);
 		// console.log("y max: ", y_max);
 
+		// Error handling
+		if (y_min < 0 || y_max > mapMaxY) return console.log(this, "Y of ", y_max, " is out of bounds error from getMapCrossSection | map.js | map height = ", mapMaxY);
+
 		// go by y, then check the x and return if in range
 		var i = y_min;
 		while(i <= y_max) {
-
 			//within this row / y range, check if x_tile is within x range
 			this.tile_rows[i].forEach(function(tile) {
 				var x_tile = tile.position[0];
@@ -100,8 +105,8 @@ class GameMap {
 				// console.log("y tile: ",y_tile);
 				// console.log("x_max within tile.forEach: ",x_max);
 				
-
-				if(x_tile >= x_min && x_tile <= x_max) tilesToSend.push(tile);
+				if(x_tile < 0 || x_tile > mapMaxX) return console.log(this, "X of ", x_tile, " is out of bounds error from getMapCrossSection | map.js | map width = ", mapMaxY);
+				if(x_tile >= x_min && x_tile < x_max) tilesToSend.push(tile);
 			});
 
 			i++;

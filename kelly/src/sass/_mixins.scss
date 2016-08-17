@@ -1,0 +1,7 @@
+// put mixings in here.
+
+@mixin centerer__horizontal {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+}

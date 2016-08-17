@@ -3978,8 +3978,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var GameMap = function () {
 	function GameMap() {
 		var level_number = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-		var width = arguments.length <= 1 || arguments[1] === undefined ? 16 : arguments[1];
-		var height = arguments.length <= 2 || arguments[2] === undefined ? 10 : arguments[2];
+		var width = arguments.length <= 1 || arguments[1] === undefined ? 60 : arguments[1];
+		var height = arguments.length <= 2 || arguments[2] === undefined ? 60 : arguments[2];
 
 		_classCallCheck(this, GameMap);
 
@@ -4069,15 +4069,20 @@ var GameMap = function () {
 			var y_min = leftTopCorner[1];
 			var y_max = rightLowerCorner[1];
 
+			var mapMaxX = this.width - 1;
+			var mapMaxY = this.height - 1;
+
 			// console.log("x min: ", x_min);
 			// console.log("x max: ", x_max);
 			// console.log("y min: ", y_min);
 			// console.log("y max: ", y_max);
 
+			// Error handling
+			if (y_min < 0 || y_max > mapMaxY) return console.log(this, "Y of ", y_max, " is out of bounds error from getMapCrossSection | map.js | map height = ", mapMaxY);
+
 			// go by y, then check the x and return if in range
 			var i = y_min;
 			while (i <= y_max) {
-
 				//within this row / y range, check if x_tile is within x range
 				this.tile_rows[i].forEach(function (tile) {
 					var x_tile = tile.position[0];
@@ -4086,8 +4091,8 @@ var GameMap = function () {
 					// console.log("y tile: ",y_tile);
 					// console.log("x_max within tile.forEach: ",x_max);
 
-
-					if (x_tile >= x_min && x_tile <= x_max) tilesToSend.push(tile);
+					if (x_tile < 0 || x_tile > mapMaxX) return console.log(this, "X of ", x_tile, " is out of bounds error from getMapCrossSection | map.js | map width = ", mapMaxY);
+					if (x_tile >= x_min && x_tile < x_max) tilesToSend.push(tile);
 				});
 
 				i++;
@@ -4241,7 +4246,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _map = require('./../logic/level/map-utils/map');
 
-var _tileView = require('./tile-view');
+var _mapRow = require('./map-row');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4265,66 +4270,59 @@ var Map_Controller = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Map_Controller).call(this, props));
 
     _this.map = props.map;
+    _this.cameraTopLeft = props.cameraTopLeft;
+    _this.cameraScale = 20;
 
     return _this;
   }
 
+  // Map coordinates are left to right, for x and top to bottom, for y
+
+
   _createClass(Map_Controller, [{
-    key: 'buildRow',
-    value: function buildRow(i, row_content) {
-      var classes = ["row", "n-" + i];
-      return _react2.default.createElement(
-        'div',
-        { key: i, className: classes[0] + " " + classes[1] },
-        row_content
-      );
+    key: 'getTiles__Row',
+    value: function getTiles__Row(i, x_min_cam, x_max_cam) {
+      var coords = [[x_min_cam, i], [x_max_cam, i]];
+      console.log("i from getTiles__Row in Map_Controller = ", i);
+      return this.props.map.getMapCrossSection(coords[0], coords[1]);
     }
+
+    // Tiles are owned by rows
+
   }, {
-    key: 'getRowContent',
-    value: function getRowContent(i) {
-
-      // each row at a time
-      return this.props.map.mapTilesByRow(i, function (tile) {
-        return (
-
-          // Tile Properties: 
-          //    1. position 
-          //    2. artFile  
-          //    3. isBoundary
-          //    4. movementAllowed
-          //    5. hasStoryPoint
-
-          _react2.default.createElement(_tileView.Tile_View, {
-            key: tile.position,
-            position: tile.position,
-            artFile: tile.artFile,
-            isBoundary: tile.isBoundary,
-            movementAllowed: tile.movementAllowed,
-            hasStoryPoint: tile.hasStoryPoint
-          })
-
-          /**             **/
-          /** For testing **/
-          /**             **/
-
-          /* <p key={tile.position}>   
-          {tile.position + " " + tile.artFile + " " + tile.isBoundary + " " + tile.movementAllowed + " " + tile.hasStoryPoint} 
-          </p> */
-
-        );
-      });
+    key: 'buildRow',
+    value: function buildRow(i, tiles) {
+      return _react2.default.createElement(_mapRow.MapUtil__Row, { key: i, index: i, tiles: tiles });
     }
+
+    /********           *********/
+    /********           *********/
+    /******** RENDERING *********/
+    /********           *********/
+    /********           *********/
+
   }, {
     key: 'render',
     value: function render() {
       var jsx_content = [];
-      for (var i = 0; i < this.props.map.height; i++) {
 
-        // turn each row of tiles into jsx content
-        // then, place that inside a row
-        jsx_content.push(this.buildRow(i, this.getRowContent(i)));
+      var x_min_cam = this.cameraTopLeft[0];
+      var x_max_cam = this.cameraTopLeft[0] + this.cameraScale;
+      var y_min_cam = this.cameraTopLeft[1];
+      var y_max_cam = this.cameraTopLeft[1] + this.cameraScale;
+
+      console.log(y_max_cam, "is y_max_cam");
+
+      var i = this.props.cameraTopLeft[1];
+      while (i < y_max_cam) {
+
+        // for each row, create a new MapUtil_Row, and 
+        // feed it the tiles it needs
+        jsx_content.push(this.buildRow(i, this.getTiles__Row(i, x_min_cam, x_max_cam)));
+        i++;
       }
 
+      /* JSX return */
       return _react2.default.createElement(
         'div',
         { className: 'Map_Controller' },
@@ -4341,11 +4339,15 @@ var Map_Controller = function (_React$Component) {
 
 
 Map_Controller.propTypes = {
-  map: _react2.default.PropTypes.object
+  map: _react2.default.PropTypes.object,
+  cameraTopLeft: _react2.default.PropTypes.array,
+  cameraScale: _react2.default.PropTypes.number
 };
 
+// Camera Scale has to be adjusted here and in Sass if necessary.
 Map_Controller.defaultProps = {
-  map: new _map.GameMap(0)
+  map: new _map.GameMap(0),
+  cameraTopLeft: [0, 0]
 };
 
 exports.Map_Controller = Map_Controller;
@@ -4353,7 +4355,89 @@ exports.Map_Controller = Map_Controller;
 //*** To do / plan:
 //      Use logic here to position the tiles. you reach the end of a row, add a break/clearfix.
 
-},{"./../logic/level/map-utils/map":35,"./tile-view":39,"react":34}],39:[function(require,module,exports){
+},{"./../logic/level/map-utils/map":35,"./map-row":39,"react":34}],39:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MapUtil__Row = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _tileView = require('./tile-view');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MapUtil__Row = function (_React$Component) {
+	_inherits(MapUtil__Row, _React$Component);
+
+	function MapUtil__Row(props) {
+		_classCallCheck(this, MapUtil__Row);
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MapUtil__Row).call(this, props));
+
+		_this.index = props.index;
+		// this.classNames = ["row"].push(props.classNames);
+		_this.tiles = props.tiles;
+		return _this;
+	}
+
+	_createClass(MapUtil__Row, [{
+		key: 'render',
+		value: function render() {
+			var jsx_content = [];
+			this.props.tiles.forEach(function (tile) {
+				jsx_content.push(
+
+				// Tile Properties: 
+				//    1. position 
+				//    2. artFile  
+				//    3. isBoundary
+				//    4. movementAllowed
+				//    5. hasStoryPoint
+
+				_react2.default.createElement(_tileView.Tile_View, {
+					key: tile.position,
+					position: tile.position,
+					artFile: tile.artFile,
+					isBoundary: tile.isBoundary,
+					movementAllowed: tile.movementAllowed,
+					hasStoryPoint: tile.hasStoryPoint
+				}));
+			});
+
+			var classes = "map__row " + "n-" + this.props.index;
+
+			return _react2.default.createElement(
+				'div',
+				{ className: classes },
+				jsx_content
+			);
+		}
+	}]);
+
+	return MapUtil__Row;
+}(_react2.default.Component);
+
+MapUtil__Row.propTypes = {
+	index: _react2.default.PropTypes.number,
+	tiles: _react2.default.PropTypes.array
+};
+
+exports.MapUtil__Row = MapUtil__Row;
+
+},{"./tile-view":40,"react":34}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4376,7 +4460,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import ReactDOM from 'react-dom';
 
 var Tile_View = function (_React$Component) {
 	_inherits(Tile_View, _React$Component);

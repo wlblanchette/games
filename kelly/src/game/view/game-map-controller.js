@@ -3,7 +3,13 @@ import React from 'react';
 
 //Game Logic + presentation
 import { GameMap } from './../logic/level/map-utils/map';
-import { Tile_View } from './tile-view';
+import { MapUtil__Row } from './map-row';
+
+
+
+
+
+
 
 class Map_Controller extends React.Component {
 	constructor(props) {
@@ -11,51 +17,22 @@ class Map_Controller extends React.Component {
     	// initialize the gamemap
 		  this.map 	              = props.map;
       this.cameraTopLeft      = props.cameraTopLeft;
-      this.cameraBottomRight  = props.cameraBottomRight;
+      this.cameraScale        = 20;
 
   }
 
-
-  buildRow(i, row_content) {
-    var classes = ["row", "n-"+i]
-    return (<div key={i} className={classes[0] + " " + classes[1]}>{row_content}</div>)
+  // Map coordinates are left to right, for x and top to bottom, for y
+  getTiles__Row(i, x_min_cam, x_max_cam) {
+    var coords = [[x_min_cam, i],[x_max_cam, i]];
+    console.log("i from getTiles__Row in Map_Controller = ",i);
+    return this.props.map.getMapCrossSection(coords[0], coords[1]);
   }
 
-
-  getRowContent(i) {
-
-    // each row at a time
-    return this.props.map.mapTilesByRow(i, function(tile) {
-      return(
-
-        // Tile Properties: 
-        //    1. position 
-        //    2. artFile  
-        //    3. isBoundary
-        //    4. movementAllowed
-        //    5. hasStoryPoint
-
-        <Tile_View 
-          key              = {tile.position}
-          position         = {tile.position}
-          artFile          = {tile.artFile}
-          isBoundary       = {tile.isBoundary}
-          movementAllowed  = {tile.movementAllowed}
-          hasStoryPoint    = {tile.hasStoryPoint}
-        />
-
-
-
-                  /**             **/
-                  /** For testing **/
-                  /**             **/
-
-        /* <p key={tile.position}>   
-        {tile.position + " " + tile.artFile + " " + tile.isBoundary + " " + tile.movementAllowed + " " + tile.hasStoryPoint} 
-        </p> */
-      );
-    });
+  // Tiles are owned by rows
+  buildRow(i, tiles) {
+    return ( <MapUtil__Row key={i} index={i} tiles={tiles} /> );
   }
+
               /********           *********/
               /********           *********/
               /******** RENDERING *********/
@@ -64,11 +41,21 @@ class Map_Controller extends React.Component {
 
 	render() {
     var jsx_content = []
-    for (var i=0; i<this.props.cameraTopLeft; i++) {
+
+    var x_min_cam = this.cameraTopLeft[0];
+    var x_max_cam = this.cameraTopLeft[0] + this.cameraScale;
+    var y_min_cam = this.cameraTopLeft[1];
+    var y_max_cam = this.cameraTopLeft[1] + this.cameraScale;
+
+    console.log(y_max_cam, "is y_max_cam");
+
+    var i = this.props.cameraTopLeft[1];
+    while (i < y_max_cam) {
       
-      // turn each row of tiles into jsx content
-      // then, place that inside a row
-      jsx_content.push(this.buildRow(i, this.getRowContent(i, range)));
+      // for each row, create a new MapUtil_Row, and 
+      // feed it the tiles it needs
+      jsx_content.push(this.buildRow(i, this.getTiles__Row(i, x_min_cam, x_max_cam)));
+      i++
     }
 
 
@@ -83,12 +70,16 @@ class Map_Controller extends React.Component {
 // ** it will be the only property within the Map_Controller
 Map_Controller.propTypes  = {
   map:                React.PropTypes.object,
-  cameraTopLeft:      React.PropTypes.number,
-  cameraBottomRight:  React.PropTypes.number
+  cameraTopLeft:      React.PropTypes.array,
+  cameraScale:        React.PropTypes.number
 }
 
+
+
+// Camera Scale has to be adjusted here and in Sass if necessary.
 Map_Controller.defaultProps = {
-	map: 	 new GameMap(0)
+	map: 	             new GameMap(0),
+  cameraTopLeft:     [0,0]
 }
 
 

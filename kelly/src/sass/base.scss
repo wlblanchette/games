@@ -1,18 +1,42 @@
+@import 'mixins';
 // This is the base styles file
+$camera-size 				: 20;
+$tile--width 				: 40px;
+$tile--height				: $tile--width;
 
+.main {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
 .Map_Controller {
-	.row {
-		&:after {
-			content: "";
-			clear: both;
-			display: block;
-		}
+	@include centerer__horizontal;
+
+	z-index: -1;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	//number of tiles * height of tiles
+	height: $camera-size * $tile--height;
+
+	// number of tiles * width of tiles
+	width: $camera-size * $tile--width;
+
+
+
+	.map__row {
+		flex-basis: 100%;
+		height: $tile--height;
+
+
+
+
 		.tile {
-			background-size: 80px;
+			background-size: $tile--width;
 			display: inline-block;
 			float: left;
 			min-height: 100%;
-			width: 80px;
+			width: $tile--width;
 		}
 	}
 }

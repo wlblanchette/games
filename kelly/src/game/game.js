@@ -40,10 +40,6 @@ console.log(g.level.level_number);
 console.log(g.level.map.level_number);
 console.log("tile 6 position = " + g.level.map.tile_rows[0][6].position);
 console.log(g.player.name);
-console.log(g.level.map.getMapCrossSection([1,1], [6,6]).map(function(tile) {
-		return tile.position;
-	})
-);
 
 var boundaries = [];
 var boundaries = g.level.map.getBoundaries();
