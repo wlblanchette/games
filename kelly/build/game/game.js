@@ -21302,7 +21302,7 @@ var Map_Controller = function (_React$Component) {
 
     _this.map = props.map;
     _this.cameraTopLeft = props.cameraTopLeft;
-    _this.cameraScale = 20;
+    _this.cameraScale = 16;
 
     return _this;
   }

@@ -17,7 +17,7 @@ class Map_Controller extends React.Component {
     	// initialize the gamemap
 		  this.map 	              = props.map;
       this.cameraTopLeft      = props.cameraTopLeft;
-      this.cameraScale        = 20;
+      this.cameraScale        = 16;
 
   }
 

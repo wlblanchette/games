@@ -1,7 +1,20 @@
 // put mixings in here.
 
+@mixin centerer {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
 @mixin centerer__horizontal {
 	position: absolute;
 	left: 50%;
 	transform: translate(-50%);
+}
+
+@mixin centerer__vertical {
+	position: absolute;
+	top: 50%;
+	transform: translate(0%, -50%);
 }

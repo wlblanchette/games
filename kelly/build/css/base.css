@@ -11,8 +11,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 800px;
-  width: 800px; }
+  height: 640px;
+  width: 640px; }
   .Map_Controller .map__row {
     flex-basis: 100%;
     height: 40px; }
