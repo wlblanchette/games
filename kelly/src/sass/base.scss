@@ -4,39 +4,44 @@ $camera-size 				: 16;
 $tile--width 				: 40px;
 $tile--height				: $tile--width;
 
+//react RenderDOM anchor element
 .main {
 	position: relative;
 	height: 100%;
 	width: 100%;
-}
-.Map_Controller {
-	@include centerer__horizontal;
 
-	z-index: -1;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	//number of tiles * height of tiles
-	height: $camera-size * $tile--height;
+	.Map_Controller {
+		@include centerer__horizontal;
 
-	// number of tiles * width of tiles
-	width: $camera-size * $tile--width;
+		z-index: -1;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		//number of tiles * height of tiles
+		height: $camera-size * $tile--height;
 
-
-
-	.map__row {
-		flex-basis: 100%;
-		height: $tile--height;
+		// number of tiles * width of tiles
+		width: $camera-size * $tile--width;
 
 
 
+		.map__row {
+			flex-basis: 100%;
+			height: $tile--height;
 
-		.tile {
-			background-size: $tile--width;
-			display: inline-block;
-			float: left;
-			min-height: 100%;
-			width: $tile--width;
+
+
+
+			.tile {
+				background-size: $tile--width;
+				display: inline-block;
+				float: left;
+				min-height: 100%;
+				width: $tile--width;
+
+				//If player is contained within a tile
+				position: relative;
+			}
 		}
 	}
 }
