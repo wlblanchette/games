@@ -22354,7 +22354,7 @@ var _player = require('./logic/player');
 
 var _level = require('./logic/level/level');
 
-var _gameMapController = require('./view/game-map-controller');
+var _camera = require('./view/camera');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22401,11 +22401,11 @@ var boundaries = g.level.map.getBoundaries();
 // 	console.log("tile boundary at: " + boundary);
 // });
 
-_reactDom2.default.render(_react2.default.createElement(_gameMapController.Map_Controller, { map: g.level.map }), document.getElementById('main'));
+_reactDom2.default.render(_react2.default.createElement(_camera.Camera, { map: g.level.map }), document.getElementById('main'));
 
 console.log("tile 0 = " + boundaries[0]);
 
-},{"./logic/level/level":178,"./logic/player":182,"./view/game-map-controller":183,"react":174,"react-dom":29}],177:[function(require,module,exports){
+},{"./logic/level/level":178,"./logic/player":182,"./view/camera":183,"react":174,"react-dom":29}],177:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22817,7 +22817,7 @@ exports.Player = Player;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Map_Controller = undefined;
+exports.Camera = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -22847,14 +22847,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //Game Logic + presentation
 
 
-var Map_Controller = function (_React$Component) {
-  _inherits(Map_Controller, _React$Component);
+var Camera = function (_React$Component) {
+  _inherits(Camera, _React$Component);
 
-  function Map_Controller(props) {
-    _classCallCheck(this, Map_Controller);
+  function Camera(props) {
+    _classCallCheck(this, Camera);
 
     // initialize the gamemap
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Map_Controller).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Camera).call(this, props));
 
     _this.map = props.map;
     _this.cameraTopLeft = props.cameraTopLeft;
@@ -22863,10 +22863,18 @@ var Map_Controller = function (_React$Component) {
     return _this;
   }
 
-  _createClass(Map_Controller, [{
+  _createClass(Camera, [{
     key: 'getClasses',
     value: function getClasses() {
-      return "Map_Controller";
+      return "Camera";
+    }
+  }, {
+    key: 'isMove',
+    value: function isMove(coordinates) {
+      // coordinates = [x, y]
+      var tile = this.props.map.getMapCrossSection(coordinates, coordinates);
+
+      return tile.movementAllowed() ? true : false;
     }
   }, {
     key: 'getCameraBottomRight',
@@ -22926,14 +22934,14 @@ var Map_Controller = function (_React$Component) {
     }
   }]);
 
-  return Map_Controller;
+  return Camera;
 }(_react2.default.Component);
 
 // ** Since the map contains all necessary attributes, for now 
-// ** it will be the only property within the Map_Controller
+// ** it will be the only property within the Camera
 
 
-Map_Controller.propTypes = {
+Camera.propTypes = {
   map: _react2.default.PropTypes.object,
   cameraTopLeft: _react2.default.PropTypes.array,
   cameraScale: _react2.default.PropTypes.number,
@@ -22941,14 +22949,14 @@ Map_Controller.propTypes = {
 };
 
 // Camera Scale has to be adjusted here and in Sass if necessary.
-Map_Controller.defaultProps = {
+Camera.defaultProps = {
   map: new _map.GameMap(0),
   cameraTopLeft: [0, 0],
   cameraScale: 16,
   playerPosition: [0, 0]
 };
 
-exports.Map_Controller = Map_Controller;
+exports.Camera = Camera;
 
 //*** To do / plan:
 //      Use logic here to position the tiles. you reach the end of a row, add a break/clearfix.
@@ -23117,7 +23125,7 @@ var Tile_View = function (_React$Component) {
 		_this.isBoundary = props.isBoundary;
 		_this.movementAllowed = props.movementAllowed;
 		_this.hasStoryPoint = props.hasStoryPoint;
-		_this.hasPlayer = props.hasPlayer;
+		// this.hasPlayer			= props.hasPlayer;
 		return _this;
 	}
 
@@ -23133,17 +23141,14 @@ var Tile_View = function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			var classes = "tile " + this.props.position;
-			var jsx_content = [];
+			// var jsx_content = [];
 
-			if (this.props.hasPlayer) {
-				jsx_content.push(_react2.default.createElement(_player.Player, { key: 'player' }));
-			}
+			// if(this.props.hasPlayer){
+			// 	jsx_content.push( <Player key="player"/> ); 
+			// }
 
-			return _react2.default.createElement(
-				'div',
-				{ className: classes, style: this.getStyles() },
-				jsx_content
-			);
+
+			return _react2.default.createElement('div', { className: classes, style: this.getStyles() });
 		}
 	}]);
 

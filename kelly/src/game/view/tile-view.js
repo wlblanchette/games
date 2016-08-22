@@ -13,7 +13,7 @@ class Tile_View extends React.Component {
 		this.isBoundary		 	= props.isBoundary;
 		this.movementAllowed	= props.movementAllowed;
 		this.hasStoryPoint	 	= props.hasStoryPoint;
-		this.hasPlayer			= props.hasPlayer;
+		// this.hasPlayer			= props.hasPlayer;
 	}
 
 	getStyles() {
@@ -25,15 +25,15 @@ class Tile_View extends React.Component {
 
 	render() {
 		var classes 	= "tile " + this.props.position;
-		var jsx_content = [];
+		// var jsx_content = [];
 
-		if(this.props.hasPlayer){
-			jsx_content.push( <Player key="player"/> ); 
-		}
+		// if(this.props.hasPlayer){
+		// 	jsx_content.push( <Player key="player"/> ); 
+		// }
 
 
 		return ( 
-			<div className={classes} style={this.getStyles()}>{jsx_content}</div>
+			<div className={classes} style={this.getStyles()}></div>
 		);
 	}
 }

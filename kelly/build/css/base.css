@@ -2,7 +2,7 @@
   position: relative;
   height: 100%;
   width: 100%; }
-  #main .Map_Controller {
+  #main .Camera {
     position: absolute;
     left: 50%;
     transform: translate(-50%);
@@ -12,7 +12,7 @@
     flex-wrap: wrap;
     height: 640px;
     width: 640px; }
-    #main .Map_Controller .tile {
+    #main .Camera .tile {
       background-size: 40px;
       display: inline-block;
       float: left;

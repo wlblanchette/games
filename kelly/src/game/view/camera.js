@@ -13,7 +13,7 @@ import { Tile_View } from './tile-view';
 
 
 
-class Map_Controller extends React.Component {
+class Camera extends React.Component {
 	constructor(props) {
     	super(props);
     	// initialize the gamemap
@@ -24,7 +24,14 @@ class Map_Controller extends React.Component {
   }
 
   getClasses() {
-    return "Map_Controller";
+    return "Camera";
+  }
+
+  isMove(coordinates) {
+    // coordinates = [x, y]
+    var tile = this.props.map.getMapCrossSection(coordinates, coordinates);
+
+    return tile.movementAllowed() ? true : false;
   }
 
   getCameraBottomRight() {
@@ -87,8 +94,8 @@ class Map_Controller extends React.Component {
 }
 
 // ** Since the map contains all necessary attributes, for now 
-// ** it will be the only property within the Map_Controller
-Map_Controller.propTypes  = {
+// ** it will be the only property within the Camera
+Camera.propTypes  = {
   map:                React.PropTypes.object,
   cameraTopLeft:      React.PropTypes.array,
   cameraScale:        React.PropTypes.number,
@@ -98,7 +105,7 @@ Map_Controller.propTypes  = {
 
 
 // Camera Scale has to be adjusted here and in Sass if necessary.
-Map_Controller.defaultProps = {
+Camera.defaultProps = {
 	map: 	              new GameMap(0),
   cameraTopLeft:      [0,0],
   cameraScale:        16,
@@ -106,7 +113,7 @@ Map_Controller.defaultProps = {
 }
 
 
-export { Map_Controller };
+export { Camera };
 
 
 //*** To do / plan:

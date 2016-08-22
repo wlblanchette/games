@@ -4130,7 +4130,7 @@ var Tile_View = function (_React$Component) {
 		_this.isBoundary = props.isBoundary;
 		_this.movementAllowed = props.movementAllowed;
 		_this.hasStoryPoint = props.hasStoryPoint;
-		_this.hasPlayer = props.hasPlayer;
+		// this.hasPlayer			= props.hasPlayer;
 		return _this;
 	}
 
@@ -4146,17 +4146,14 @@ var Tile_View = function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			var classes = "tile " + this.props.position;
-			var jsx_content = [];
+			// var jsx_content = [];
 
-			if (this.props.hasPlayer) {
-				jsx_content.push(_react2.default.createElement(_player.Player, { key: 'player' }));
-			}
+			// if(this.props.hasPlayer){
+			// 	jsx_content.push( <Player key="player"/> ); 
+			// }
 
-			return _react2.default.createElement(
-				'div',
-				{ className: classes, style: this.getStyles() },
-				jsx_content
-			);
+
+			return _react2.default.createElement('div', { className: classes, style: this.getStyles() });
 		}
 	}]);
 
