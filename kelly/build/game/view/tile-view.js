@@ -4138,7 +4138,8 @@ var Tile_View = function (_React$Component) {
 		key: 'getStyles',
 		value: function getStyles() {
 			return {
-				backgroundImage: 'url(' + this.props.artFile + ')'
+				backgroundImage: 'url(' + this.props.artFile + ')',
+				transform: 'translate(' + this.props.position[0] * 100 + '%, ' + this.props.position[1] * 100 + '%)'
 			};
 		}
 	}, {

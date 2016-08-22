@@ -22479,7 +22479,6 @@ var GameMap = function () {
 
 		//build map if there's no input
 		// if (tiles === []) {
-		console.log("running build map");
 		this.buildMap();
 		// }
 	}
@@ -22493,6 +22492,7 @@ var GameMap = function () {
 	_createClass(GameMap, [{
 		key: "buildMap",
 		value: function buildMap() {
+			console.log("running build map");
 
 			for (var i = 0; i < this.height; i++) {
 				this.tile_rows[i] = [];
@@ -22860,7 +22860,6 @@ var Map_Controller = function (_React$Component) {
     _this.cameraTopLeft = props.cameraTopLeft;
     _this.cameraScale = props.cameraScale;
     _this.playerPosition = props.playerPosition;
-
     return _this;
   }
 
@@ -22872,7 +22871,21 @@ var Map_Controller = function (_React$Component) {
   }, {
     key: 'getCameraBottomRight',
     value: function getCameraBottomRight() {
+      // For use in creating tiles via map.getMapCrossSection
       return [this.props.cameraTopLeft[0] + this.props.cameraScale - 1, this.props.cameraTopLeft[1] + this.props.cameraScale - 1];
+    }
+  }, {
+    key: 'convertCameraUnitsToWorld',
+    value: function convertCameraUnitsToWorld(cameraUnits) {
+      // Potentially for use with player positioning within camera frame.
+      //   ---> X
+      // |
+      // |
+      // V
+      //
+      // Y
+
+      return [cameraUnits[0] + cameraTopLeft[0], cameraUnits[1] + cameraTopLeft[0]];
     }
 
     /********           *********/
@@ -22886,16 +22899,13 @@ var Map_Controller = function (_React$Component) {
     value: function render() {
       var jsx_content = [];
 
+      console.log("* camera cross section: ", this.props.cameraTopLeft, " by ", this.getCameraBottomRight());
+
       //Get tiles
       var tiles = this.map.getMapCrossSection(this.props.cameraTopLeft, this.getCameraBottomRight());
 
-      console.log("cross section: ", this.props.cameraTopLeft, " by ", this.getCameraBottomRight());
-
       var playerPosition = this.props.playerPosition;
       tiles.forEach(function (tile) {
-        // console.log(tile.plosition, playerPosition)
-        // console.log(_.isEqual(tile.plosition, playerPosition))
-
         jsx_content.push(_react2.default.createElement(_tileView.Tile_View, {
           key: tile.position,
           position: tile.position,
@@ -23115,7 +23125,8 @@ var Tile_View = function (_React$Component) {
 		key: 'getStyles',
 		value: function getStyles() {
 			return {
-				backgroundImage: 'url(' + this.props.artFile + ')'
+				backgroundImage: 'url(' + this.props.artFile + ')',
+				transform: 'translate(' + this.props.position[0] * 100 + '%, ' + this.props.position[1] * 100 + '%)'
 			};
 		}
 	}, {

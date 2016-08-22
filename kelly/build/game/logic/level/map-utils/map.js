@@ -28,7 +28,6 @@ var GameMap = function () {
 
 		//build map if there's no input
 		// if (tiles === []) {
-		console.log("running build map");
 		this.buildMap();
 		// }
 	}
@@ -42,6 +41,7 @@ var GameMap = function () {
 	_createClass(GameMap, [{
 		key: "buildMap",
 		value: function buildMap() {
+			console.log("running build map");
 
 			for (var i = 0; i < this.height; i++) {
 				this.tile_rows[i] = [];

@@ -18,7 +18,8 @@ class Tile_View extends React.Component {
 
 	getStyles() {
 		return {
-			backgroundImage: 'url(' + this.props.artFile + ')'
+			backgroundImage: 'url(' + this.props.artFile + ')',
+			transform: 'translate(' + (this.props.position[0] * 100) + '%, ' + (this.props.position[1] * 100) + '%)'
 		}
 	}
 
