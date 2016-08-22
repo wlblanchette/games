@@ -49,7 +49,7 @@ var boundaries = g.level.map.getBoundaries();
 // });
 
 ReactDOM.render(
-	<Map_Controller map = {g.level.map}/>, document.getElementById('main')
+	<Map_Controller map = {g.level.map} />, document.getElementById('main')
 );
 
 console.log("tile 0 = " + boundaries[0])

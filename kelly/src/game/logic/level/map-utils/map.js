@@ -10,7 +10,6 @@ class GameMap {
 
 		//build map if there's no input
 		// if (tiles === []) {
-		console.log("running build map")
 		this.buildMap();
 		// }
 	}
@@ -22,6 +21,7 @@ class GameMap {
 			/*			   		 */
 
 	buildMap() {
+		console.log("running build map")
 
 		for(var i = 0; i < this.height; i++) {
 			this.tile_rows[i] = [];
@@ -93,6 +93,7 @@ class GameMap {
 
 		// Error handling
 		if (y_min < 0 || y_max > mapMaxY) return console.log(this, "Y of ", y_max, " is out of bounds error from getMapCrossSection | map.js | map height = ", mapMaxY);
+		if (x_min < 0 || x_max > mapMaxX) return console.log(this, "X of ", x_max, " is out of bounds error from getMapCrossSection | map.js | map height = ", mapMaxX);
 
 		// go by y, then check the x and return if in range
 		var i = y_min;
@@ -105,8 +106,7 @@ class GameMap {
 				// console.log("y tile: ",y_tile);
 				// console.log("x_max within tile.forEach: ",x_max);
 				
-				if(x_tile < 0 || x_tile > mapMaxX) return console.log(this, "X of ", x_tile, " is out of bounds error from getMapCrossSection | map.js | map width = ", mapMaxY);
-				if(x_tile >= x_min && x_tile < x_max) tilesToSend.push(tile);
+				if(x_tile >= x_min && x_tile <= x_max) tilesToSend.push(tile);
 			});
 
 			i++;
