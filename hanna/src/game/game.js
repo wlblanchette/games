@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 import { Player } from './logic/player';
 import { Level } from './logic/level/level';
 import { Camera } from './view/camera-view';
+import { Game_Controller_View } from './view/game-controller-view';
 
 // import { Level } from './helpers/level';
 
@@ -49,7 +50,7 @@ var boundaries = g.level.map.getBoundaries();
 // });
 
 ReactDOM.render(
-	<Camera map = {g.level.map} />, document.getElementById('main')
+	<Game_Controller_View />, document.getElementById('main')
 );
 
 console.log("tile 0 = " + boundaries[0])

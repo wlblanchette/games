@@ -10,13 +10,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // Story points get activated in game by player actions, providing narative elements.
 
 var StoryPoint = function StoryPoint() {
-	var name = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-	var content = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
+	var position = arguments.length <= 0 || arguments[0] === undefined ? [0, 0] : arguments[0];
+	var name = arguments[1];
+	var content = arguments[2];
 
 	_classCallCheck(this, StoryPoint);
 
-	this.name = name;
-	this.content = content;
+	this.position = position;
+	this.name = name || "new StoryPoint";
+	this.content = content || ["Story Content, pane 1", "Story Content, pane 2"];
 };
 
 exports.StoryPoint = StoryPoint;

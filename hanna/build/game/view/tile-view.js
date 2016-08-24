@@ -3966,11 +3966,8 @@ module.exports = require('./lib/React');
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Tile = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _storyPoint = require("./../story-point");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3992,16 +3989,9 @@ var Tile = function () {
 		this.artFile = artFile;
 		this.isBoundary = false;
 		this.movementAllowed = true;
-		this.hasStoryPoint = false;
 	}
 
 	_createClass(Tile, [{
-		key: "addStoryPoint",
-		value: function addStoryPoint(storypoint__name, storypoint__content) {
-			this.storyPoint = new _storyPoint.StoryPoint(storypoint__name, storypoint__content);
-			this.hasStoryPoint = true;
-		}
-	}, {
 		key: "setBoundary",
 		value: function setBoundary() {
 			var bool = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
@@ -4025,30 +4015,7 @@ var Tile = function () {
 
 exports.Tile = Tile;
 
-},{"./../story-point":36}],36:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// Story points get activated in game by player actions, providing narative elements.
-
-var StoryPoint = function StoryPoint() {
-	var name = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-	var content = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
-
-	_classCallCheck(this, StoryPoint);
-
-	this.name = name;
-	this.content = content;
-};
-
-exports.StoryPoint = StoryPoint;
-
-},{}],37:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4126,4 +4093,4 @@ Tile_View.propTypes = {
 
 exports.Tile_View = Tile_View;
 
-},{"./../logic/level/map-utils/tile":35,"react":34}]},{},[37]);
+},{"./../logic/level/map-utils/tile":35,"react":34}]},{},[36]);

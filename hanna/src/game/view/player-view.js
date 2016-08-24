@@ -25,20 +25,25 @@ class Player_View extends React.Component {
 			case 3:
 				return this.props.artDir + "up.png";
 			default:
-				console.log("*** Out of bounds from player-view.js >> player.facing != 0, 1, 2, or 3")
+				console.log("*** Out of bounds from player-view.js   >>   player.facing != 0, 1, 2, or 3")
 		}
 	}
 
 	getStyles() {
 		return {
-			backgroundImage: 'url(' + this.getArt() + ')',
-			transform: 'translate(' + (this.props.player.position[0] * 100) + '%, ' + (this.props.player.position[1] * 100) + '%)'
+			backgroundImage: 	'url(' + this.getArt() + ')',
+			transform: 			'translate(' + (this.props.player.position[0] * 100) + '%, ' + (this.props.player.position[1] * 100) + '%)'
 		}
 	}
 
 	render() {
-		return ( <div style={this.getStyles()} className="player"></div> );
+		return ( <div style={ this.getStyles() } className="player"></div> );
 	}
+}
+
+Player_View.propTypes  = {
+	player: 		React.PropTypes.object,
+	artDir: 		React.PropTypes.string
 }
 
 // Define base path for art assets.
@@ -46,10 +51,6 @@ Player_View.defaultProps = {
 	artDir: 		"./../assets/art/player/"
 }
 
-Player_View.propTypes  = {
-	player: 		React.PropTypes.object,
-	artDir: 		React.PropTypes.string
-}
 
 
 export { Player_View };

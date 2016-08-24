@@ -37,8 +37,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var GameMap = function () {
 	function GameMap() {
 		var level_number = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-		var width = arguments.length <= 1 || arguments[1] === undefined ? 60 : arguments[1];
-		var height = arguments.length <= 2 || arguments[2] === undefined ? 60 : arguments[2];
+		var width = arguments.length <= 1 || arguments[1] === undefined ? 17 : arguments[1];
+		var height = arguments.length <= 2 || arguments[2] === undefined ? 17 : arguments[2];
 
 		_classCallCheck(this, GameMap);
 
@@ -207,11 +207,8 @@ exports.GameMap = GameMap;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Tile = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _storyPoint = require("./../story-point");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -233,16 +230,9 @@ var Tile = function () {
 		this.artFile = artFile;
 		this.isBoundary = false;
 		this.movementAllowed = true;
-		this.hasStoryPoint = false;
 	}
 
 	_createClass(Tile, [{
-		key: "addStoryPoint",
-		value: function addStoryPoint(storypoint__name, storypoint__content) {
-			this.storyPoint = new _storyPoint.StoryPoint(storypoint__name, storypoint__content);
-			this.hasStoryPoint = true;
-		}
-	}, {
 		key: "setBoundary",
 		value: function setBoundary() {
 			var bool = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
@@ -265,28 +255,5 @@ var Tile = function () {
 }();
 
 exports.Tile = Tile;
-
-},{"./../story-point":4}],4:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// Story points get activated in game by player actions, providing narative elements.
-
-var StoryPoint = function StoryPoint() {
-	var name = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-	var content = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
-
-	_classCallCheck(this, StoryPoint);
-
-	this.name = name;
-	this.content = content;
-};
-
-exports.StoryPoint = StoryPoint;
 
 },{}]},{},[1]);

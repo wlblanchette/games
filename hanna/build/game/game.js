@@ -22356,6 +22356,8 @@ var _level = require('./logic/level/level');
 
 var _cameraView = require('./view/camera-view');
 
+var _gameControllerView = require('./view/game-controller-view');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*									*/
@@ -22401,11 +22403,11 @@ var boundaries = g.level.map.getBoundaries();
 // 	console.log("tile boundary at: " + boundary);
 // });
 
-_reactDom2.default.render(_react2.default.createElement(_cameraView.Camera, { map: g.level.map }), document.getElementById('main'));
+_reactDom2.default.render(_react2.default.createElement(_gameControllerView.Game_Controller_View, null), document.getElementById('main'));
 
 console.log("tile 0 = " + boundaries[0]);
 
-},{"./logic/level/level":178,"./logic/player":182,"./view/camera-view":183,"react":174,"react-dom":29}],177:[function(require,module,exports){
+},{"./logic/level/level":178,"./logic/player":181,"./view/camera-view":182,"./view/game-controller-view":183,"react":174,"react-dom":29}],177:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22467,8 +22469,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var GameMap = function () {
 	function GameMap() {
 		var level_number = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-		var width = arguments.length <= 1 || arguments[1] === undefined ? 60 : arguments[1];
-		var height = arguments.length <= 2 || arguments[2] === undefined ? 60 : arguments[2];
+		var width = arguments.length <= 1 || arguments[1] === undefined ? 17 : arguments[1];
+		var height = arguments.length <= 2 || arguments[2] === undefined ? 17 : arguments[2];
 
 		_classCallCheck(this, GameMap);
 
@@ -22637,11 +22639,8 @@ exports.GameMap = GameMap;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Tile = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _storyPoint = require("./../story-point");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -22663,16 +22662,9 @@ var Tile = function () {
 		this.artFile = artFile;
 		this.isBoundary = false;
 		this.movementAllowed = true;
-		this.hasStoryPoint = false;
 	}
 
 	_createClass(Tile, [{
-		key: "addStoryPoint",
-		value: function addStoryPoint(storypoint__name, storypoint__content) {
-			this.storyPoint = new _storyPoint.StoryPoint(storypoint__name, storypoint__content);
-			this.hasStoryPoint = true;
-		}
-	}, {
 		key: "setBoundary",
 		value: function setBoundary() {
 			var bool = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
@@ -22696,30 +22688,7 @@ var Tile = function () {
 
 exports.Tile = Tile;
 
-},{"./../story-point":181}],181:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// Story points get activated in game by player actions, providing narative elements.
-
-var StoryPoint = function StoryPoint() {
-	var name = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-	var content = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
-
-	_classCallCheck(this, StoryPoint);
-
-	this.name = name;
-	this.content = content;
-};
-
-exports.StoryPoint = StoryPoint;
-
-},{}],182:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22810,7 +22779,7 @@ var Player = function () {
 
 exports.Player = Player;
 
-},{"./item":177}],183:[function(require,module,exports){
+},{"./item":177}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -22859,7 +22828,6 @@ var Camera = function (_React$Component) {
 
     _this.map = props.map;
     _this.cameraTopLeft = props.cameraTopLeft;
-    _this.cameraScale = props.cameraScale;
     _this.player = props.player;
     return _this;
   }
@@ -22951,7 +22919,7 @@ Camera.propTypes = {
 Camera.defaultProps = {
   map: new _map.GameMap(0),
   cameraTopLeft: [0, 0],
-  cameraScale: 16,
+  cameraScale: 17,
   player: new _player.Player(4, 4)
 
 };
@@ -22961,7 +22929,86 @@ exports.Camera = Camera;
 //*** To do / plan:
 //      Use logic here to position the tiles. you reach the end of a row, add a break/clearfix.
 
-},{"./../logic/level/map-utils/map":179,"./../logic/player":182,"./player-view":184,"./tile-view":185,"react":174,"underscore":175}],184:[function(require,module,exports){
+},{"./../logic/level/map-utils/map":179,"./../logic/player":181,"./player-view":184,"./tile-view":185,"react":174,"underscore":175}],183:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Game_Controller_View = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _cameraView = require('./camera-view');
+
+var _player = require('../logic/player');
+
+var _map = require('../logic/level/map-utils/map');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// logic
+
+
+var Game_Controller_View = function (_React$Component) {
+	_inherits(Game_Controller_View, _React$Component);
+
+	function Game_Controller_View(props) {
+		_classCallCheck(this, Game_Controller_View);
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Game_Controller_View).call(this, props));
+
+		_this.level_number = props.level_number;
+		_this.map = new _map.GameMap(props.level_number);
+		_this.camera_start_pos = props.camera_start_pos;
+		return _this;
+	}
+
+	_createClass(Game_Controller_View, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'Game_Controller_View' },
+				_react2.default.createElement(_cameraView.Camera, { key: 'camera',
+					cameraTopLeft: this.props.camera_start_pos,
+					map: this.props.map,
+					Player: this.props.player
+				})
+			);
+		}
+	}]);
+
+	return Game_Controller_View;
+}(_react2.default.Component);
+
+Game_Controller_View.propTypes = {
+	level_number: _react2.default.PropTypes.number,
+	camera_start_pos: _react2.default.PropTypes.array,
+	player: _react2.default.PropTypes.object,
+	map: _react2.default.PropTypes.object
+};
+
+Game_Controller_View.defaultProps = {
+	level_number: 0,
+	camera_start_pos: [0, 0],
+	player: new _player.Player([8, 8]),
+	map: new _map.GameMap(0)
+};
+
+exports.Game_Controller_View = Game_Controller_View;
+
+},{"../logic/level/map-utils/map":179,"../logic/player":181,"./camera-view":182,"react":174}],184:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -23019,7 +23066,7 @@ var Player_View = function (_React$Component) {
 				case 3:
 					return this.props.artDir + "up.png";
 				default:
-					console.log("*** Out of bounds from player-view.js >> player.facing != 0, 1, 2, or 3");
+					console.log("*** Out of bounds from player-view.js   >>   player.facing != 0, 1, 2, or 3");
 			}
 		}
 	}, {
@@ -23040,21 +23087,19 @@ var Player_View = function (_React$Component) {
 	return Player_View;
 }(_react2.default.Component);
 
-// Define base path for art assets.
-
-
-Player_View.defaultProps = {
-	artDir: "./../assets/art/player/"
-};
-
 Player_View.propTypes = {
 	player: _react2.default.PropTypes.object,
 	artDir: _react2.default.PropTypes.string
 };
 
+// Define base path for art assets.
+Player_View.defaultProps = {
+	artDir: "./../assets/art/player/"
+};
+
 exports.Player_View = Player_View;
 
-},{"../logic/player":182,"react":174}],185:[function(require,module,exports){
+},{"../logic/player":181,"react":174}],185:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

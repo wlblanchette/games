@@ -2,7 +2,7 @@
 import { Tile } from './tile';
 
 class GameMap {
-	constructor(level_number = 0, width = 60, height = 60) {
+	constructor(level_number = 0, width = 17, height = 17) {
 		this.level_number 	= level_number;
 		this.width			= width;
 		this.height			= height;

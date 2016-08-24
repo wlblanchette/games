@@ -20,7 +20,6 @@ class Camera extends React.Component {
     	// initialize the gamemap
 		  this.map 	              = props.map;
       this.cameraTopLeft      = props.cameraTopLeft;
-      this.cameraScale        = props.cameraScale;
       this.player             = props.player;
   }
 
@@ -110,7 +109,7 @@ Camera.propTypes  = {
 Camera.defaultProps = {
 	map: 	              new GameMap(0),
   cameraTopLeft:      [0,0],
-  cameraScale:        16,
+  cameraScale:        17,
   player:             new Player(4,4)
 
 }

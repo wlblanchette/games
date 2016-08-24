@@ -1,6 +1,3 @@
-
-import { StoryPoint } from './../story-point';
-
 class Tile {
 	
 	// ** Tile position will be it's position within the map.
@@ -14,12 +11,6 @@ class Tile {
 		this.artFile			= artFile;
 		this.isBoundary			= false;
 		this.movementAllowed	= true;
-		this.hasStoryPoint		= false;
-	}
-
-	addStoryPoint(storypoint__name, storypoint__content) {
-		this.storyPoint		= new StoryPoint(storypoint__name, storypoint__content);
-		this.hasStoryPoint	= true;
 	}
 
 	setBoundary(bool = true) {
